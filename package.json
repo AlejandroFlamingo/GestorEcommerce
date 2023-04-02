@@ -1,0 +1,31 @@
+{
+  "name": "plantilla_servicio",
+  "version": "1.0.0",
+  "description": "Servidor de producicon: 172.16.8.143\r Dominio para certificado SSL: https://soporte.flamingo.com.co\r Ruta del proyecto en el servidor de producicon: xxxxxxxxxxxxxxxxxxx\r Aplicacion corriendo en el puerto: 8888 // en QA\r Aplicacion corriendo en el puerto: 8020 // en PRODUCCION\r Comando apra iniciar la aplicacion: -> node src/app.js\r Comando apra iniciar aplicaion con pm2: -> pm2 restart service_get_stock",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "set NODE_ENV=development&& nodemon src/app.js",
+    "prod": "set NODE_ENV=production&& node src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.9",
+    "oracledb": "^5.5.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}

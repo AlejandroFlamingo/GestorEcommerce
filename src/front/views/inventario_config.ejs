@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap and FontAwesome -->
+    <%- include('../parts/headers.ejs') %>
+
+</head>
+
+<body>
+
+    <%- include('../parts/menu.ejs') %>
+        <div class="container-fluid px-4">
+            <div class="row mt-4">
+                <div class="col-md-12 mx-3">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="d-grid gap-2">
+                                <% if(datos.estatus=='Procesando...' ){ %>
+                                    <!-- Button trigger modal -->
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#ejecutar_sincronizacion" disabled>Procesando...</button>
+
+                                    <% } %>
+
+                                        <% if(datos.estatus=='Sin Ejecutar' ){ %>
+                                            <!-- Button trigger modal -->
+                                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                                data-bs-target="#ejecutar_sincronizacion">Ejecutar</button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="ejecutar_sincronizacion"
+                                                data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                aria-labelledby="ejecutar_sincronizacionLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5"
+                                                                id="ejecutar_sincronizacionLabel">Sincronizar de inventario
+                                                            </h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            ¿Esta seguro que desea ejecutar la sincronizacion de
+                                                            inventario para Ecommerce?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Cancelar</button>
+                                                            <form action="inventario" method="post">
+
+                                                                <button type="submitx"
+                                                                    class="btn btn-primary">Ejecutar</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <% } %>
+
+                                                <% if(datos.estatus=='Error' ){ %>
+                                                    <!-- Button trigger modal -->
+                                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#ejecutar_sincronizacion">Ejecutar</button>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="ejecutar_sincronizacion"
+                                                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                        aria-labelledby="ejecutar_sincronizacionLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5"
+                                                                        id="ejecutar_sincronizacionLabel">Sincronizacion de inventario
+                                                                    </h1>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Esta pendiente de finalizar la sincronizacion de
+                                                                        inventario, la ejecucion anterior no pudo
+                                                                        finalizar correctamente</p>
+                                                                    <p class="text-success"><strong>Registros procesados
+                                                                            <%= datos.avance_total_registros %> <i
+                                                                                    class='fas fa-check-circle'></i>
+                                                                        </strong>
+                                                                    </p>
+                                                                    <p class="text-danger"><strong>Registros sin
+                                                                            procesar <%= datos.total_registros -
+                                                                                datos.avance_total_registros %> <i
+                                                                                    class='fas fa-exclamation-circle'></i></strong>
+                                                                    </p>
+                                                                    <p>¿Esta seguro que desea ejecutar la sincronizacion
+                                                                        de
+                                                                        inventario para Ecommerce?</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Cancelar</button>
+                                                                    <form action="inventario" method="post">
+
+                                                                        <button type="submitx"
+                                                                            class="btn btn-primary">Ejecutar</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <% } %>
+                                                        <div class="row row-cols-3 text-center">
+                                                            <div class="col">
+
+                                                                <!-- Button trigger modal -->
+                                                                <button class="btn btn-primary" type="button"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#ver_historico"><i
+                                                                        class='fas fa-history'
+                                                                        style='font-size:24px'></i></button>
+
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="ver_historico"
+                                                                    data-bs-backdrop="static" data-bs-keyboard="false"
+                                                                    tabindex="-1"
+                                                                    aria-labelledby="ver_historicoLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h1 class="modal-title fs-5"
+                                                                                    id="ver_historicoLabel">Historico
+                                                                                </h1>
+                                                                                <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                ...
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Close</button>
+                                                                                <button type="button"
+                                                                                    class="btn btn-primary">Understood</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col">
+                                                                <!-- Button trigger modal -->
+                                                                <button class="btn btn-primary" type="button"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#programar_ejecucion"><i
+                                                                        class='fas fa-calendar-check'
+                                                                        style='font-size:24px'></i></button>
+
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="programar_ejecucion"
+                                                                    data-bs-backdrop="static" data-bs-keyboard="false"
+                                                                    tabindex="-1"
+                                                                    aria-labelledby="programar_ejecucionLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h1 class="modal-title fs-5"
+                                                                                    id="programar_ejecucionLabel">Modal
+                                                                                    title
+                                                                                </h1>
+                                                                                <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                ...
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Close</button>
+                                                                                <button type="button"
+                                                                                    class="btn btn-primary">Understood</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <a class="btn btn-primary btn-sm" href="inventario"
+                                                                    role="button">
+                                                                    <i class='fas fa-sync' style='font-size:24px'></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Registros a Sincronizar</h5>
+                            <table class="table table-sm mx-4" style="width: 90;">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Registros</th>
+                                        <td>
+                                            <%= datos.total_registros %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">EANs</th>
+                                        <td>
+                                            <%= datos.total_eanes %>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Registros Procesados</h5>
+                            <table class="table table-sm mx-4" style="width: 90;">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Procesados</th>
+                                        <td>
+                                            <%= datos.avance_total_registros %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">No procesados</th>
+                                        <td>
+                                            <%= datos.total_registros - datos.avance_total_registros %>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Ultima ejecucion</h5>
+                            <table class="table table-sm mx-4" style="width: 90;">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Inicio</th>
+                                        <td>
+                                            <% if((datos.log_seguimiento).length==0){ %>
+                                                Sin Ejecutar
+                                                <% }else{ %>
+                                                    <%= (new
+                                                        Date((datos.log_seguimiento)[0].fecha_registro).toLocaleString('en-US',
+                                                        {timeZone: 'America/Lima' })) %>
+                                                        <% } %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Fin</th>
+                                        <td>
+
+                                            <%= datos.estatus %>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="progress" role="progressbar" aria-label="Example with label"
+                                aria-valuenow="<%= datos.avance_total %>" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" id="avance">
+                                    <%= parseInt(datos.avance_total) %>% (registros: <%= datos.avance_total_registros %>
+                                            )
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Fecha / Hora</th>
+                                    <th scope="col">Proceso</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(let i=0; i < (datos.log_seguimiento).length; i++){ %>
+                                    <tr>
+                                        <td>
+                                            <%= (new
+                                                Date((datos.log_seguimiento)[i].fecha_registro).toLocaleString('en-US',
+                                                {timeZone: 'America/Lima' })) %>
+                                        </td>
+                                        <td>
+                                            <%= (datos.log_seguimiento)[i].response %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+            data_avance = "<%= parseInt(datos.avance_total) %>"
+            avance = document.querySelector('#avance').style.width = `${data_avance}%`;
+        </script>
+        <%- include('../parts/scripts.ejs') %>
+</body>
+
+</html>
