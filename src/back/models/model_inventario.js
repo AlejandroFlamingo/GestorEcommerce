@@ -82,12 +82,16 @@ let model_inventario_config = async () => {
 
     if (data_validacion_sincronizacion_hoy.length == 0) {
         response.estatus = 'Sin Ejecutar'
-    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion > 30 && (response.total_registros - response.avance_total_registros) > 0) {
+    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion > 150 && (response.total_registros - response.avance_total_registros) > 0) {
         response.estatus = 'Error'
     } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion > 30 && (response.total_registros - response.avance_total_registros) == 0) {
         response.estatus = response.inicio_sincronizacion
-    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion < 30) {
+    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion < 150) {
         response.estatus = 'Procesando...'
+    } else if(total_registros === parseInt(data_avance_total[0].count)){
+        response.estatus = (new Date(localISOTime).toLocaleString('en-US',{timeZone: 'America/Lima' }));
+    } else{
+        response.estatus = 'Error'
     }
     
     return response;

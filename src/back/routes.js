@@ -2,7 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
-const passLocal = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcryptjs');
 const fetch = require('node-fetch');
 const oracle = require('oracledb');
@@ -26,11 +26,15 @@ rutes.use(cookieParser(`${process.env.SECRET}`));
 rutes.use(session({
     secret: `${process.env.SECRET}`,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    // cookie: {
+    //     secure: true,
+    //     httpOnly: true
+    // }
 }));
 rutes.use(passport.initialize());
 rutes.use(passport.session());
-passport.use(new passLocal(async function (username, password, done) {
+passport.use(new LocalStrategy(async function (username, password, done) {
     const usr = username
     const pwd = password
 
@@ -51,8 +55,8 @@ passport.use(new passLocal(async function (username, password, done) {
     
         const ws_ldap = await fetch(ws_url, ws_opciones);
         const respu = await ws_ldap.json();
-
-        console.log(respu);
+        // Respuesra LDAP
+        // console.log(respu);
         console.log('hola mundo cruel');
         if (respu.codigo === 200) {
             datauser = {

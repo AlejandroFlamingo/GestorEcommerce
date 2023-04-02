@@ -3,19 +3,6 @@ const fetch = require('node-fetch');
 const pool_goe = require('../../../config/db/conn_goe');
 
 
-console.log('*************************************');
-console.log('*************************************');
-console.log('*************************************');
-console.log('*************************************');
-console.log('*************************************');
-console.log('************ Se ejecuto *************');
-console.log('*************************************');
-console.log('*************************************');
-console.log('*************************************');
-console.log('*************************************');
-console.log('*************************************');
-
-
 ejecutar = async () => {
 
     codigo = workerData.codigo;
@@ -187,7 +174,7 @@ ejecutar = async () => {
                                 VALUES (
                                     $1, $2, $3, $4, $5, $6, $7, $8, 1, $9, $10, $11
                                 )`,
-                                [codigo, registros_inventario[t].ean, registros_inventario[t].sku_vtex, registros_inventario[t].store, registros_inventario[t].sucursal, registros_inventario[t].stock, huella, id_subproceso, 1, JSON.stringify(respuesta), registros_inventario[t].apikey, registros_inventario[t].apitoken]
+                                [codigo, registros_inventario[t].ean, registros_inventario[t].sku_vtex, registros_inventario[t].store, registros_inventario[t].sucursal, registros_inventario[t].stock, huella, id_subproceso, JSON.stringify(respuesta), registros_inventario[t].apikey, registros_inventario[t].apitoken]
                             );
                             await client.query('COMMIT');
                         } catch (error) {
@@ -214,7 +201,7 @@ ejecutar = async () => {
                                 VALUES (
                                     $1, $2, $3, $4, $5, $6, $7, $8, 6, $9, $10, $11
                                 )`,
-                                [codigo, registros_inventario[t].ean, registros_inventario[t].sku_vtex, registros_inventario[t].store, registros_inventario[t].sucursal, registros_inventario[t].stock, huella, id_subproceso, 1, JSON.stringify(respuesta), registros_inventario[t].apikey, registros_inventario[t].apitoken]
+                                [codigo, registros_inventario[t].ean, registros_inventario[t].sku_vtex, registros_inventario[t].store, registros_inventario[t].sucursal, registros_inventario[t].stock, huella, id_subproceso, JSON.stringify(respuesta), registros_inventario[t].apikey, registros_inventario[t].apitoken]
                             );
                             await client.query('COMMIT');
                         } catch (error) {
