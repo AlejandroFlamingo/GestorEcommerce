@@ -116,6 +116,45 @@
                                                     </div>
 
                                                     <% } %>
+
+
+                                                    <% if(datos.estatus=='Finalizado Exitoso' ){ %>
+                                                        <!-- Button trigger modal -->
+                                                        <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#ejecutar_sincronizacion">Ejecutar</button>
+            
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="ejecutar_sincronizacion"
+                                                            data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                            aria-labelledby="ejecutar_sincronizacionLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h1 class="modal-title fs-5"
+                                                                            id="ejecutar_sincronizacionLabel">Sincronizar de inventario
+                                                                        </h1>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        ¿Esta seguro que desea ejecutar la sincronizacion de
+                                                                        inventario para Ecommerce?
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                                        <form action="inventario" method="post">
+            
+                                                                            <button type="submitx"
+                                                                                class="btn btn-primary">Ejecutar</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+            
+                                                        <% } %>
+
                                                         <div class="row row-cols-3 text-center">
                                                             <div class="col">
 
@@ -262,7 +301,11 @@
                                     <tr>
                                         <th scope="row">Fin</th>
                                         <td>
-                                            <%= datos.estatus %>
+                                            <% if(datos.estatus=='Finalizado Exitoso' ){ %>
+                                                <%= datos.estatusDate %>
+                                            <% }else{ %>
+                                                <%= datos.estatus %>
+                                            <% } %>
                                         </td>
                                     </tr>
                                 </tbody>

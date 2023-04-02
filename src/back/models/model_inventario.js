@@ -82,16 +82,19 @@ let model_inventario_config = async () => {
 
     if (data_validacion_sincronizacion_hoy.length == 0) {
         response.estatus = 'Sin Ejecutar'
+        console.log(response.estatus);
     } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion > 150 && (response.total_registros - response.avance_total_registros) > 0) {
         response.estatus = 'Error'
+        console.log(response.estatus);
     } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion > 30 && (response.total_registros - response.avance_total_registros) == 0) {
-        response.estatus = response.inicio_sincronizacion
+        response.estatus = 'Finalizado Exitoso'
+        response.estatusDate = (new Date(localISOTime).toLocaleString('en-US',{timeZone: 'America/Lima' }));
     } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion < 150) {
         response.estatus = 'Procesando...'
-    } else if(total_registros === parseInt(data_avance_total[0].count)){
-        response.estatus = (new Date(localISOTime).toLocaleString('en-US',{timeZone: 'America/Lima' }));
+        console.log(response.estatus);
     } else{
         response.estatus = 'Error'
+        console.log(response.estatus);
     }
     
     return response;
