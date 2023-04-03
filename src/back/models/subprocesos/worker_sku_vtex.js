@@ -148,11 +148,13 @@ ejecutar = async () => {
                         try {
                             await client.query('BEGIN');
                             respuest = await client.query(`
-                            INSERT INTO log_inventario ( ean, sku_vtex, fecha_registro )
-                            VALUES ( $1, $2, $3, $4' )`,
-                                [codigo, registros_inventario[t].ean, registros_inventario[t].sku_vtex, huella]
+                            INSERT INTO maestra_productos ( ean, sku_vtex, fecha_registro )
+                            VALUES ( $1, $2, $3 )`,
+                                [registros_inventario[t].ean, registros_inventario[t].sku_vtex, huella]
                             );
                             await client.query('COMMIT');
+
+                            console.log('este SKU no esta en la maestra: '+registros_inventario[t].sku_vtex)
                         } catch (error) {
                             await client.query('ROLLBACK');
                             console.error(error);
