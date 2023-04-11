@@ -23,11 +23,16 @@ let model_inventario_config = async () => {
     resultado_total = await conexion.execute(sql_total, [], { autoCommit: false }); // Se ejecuta consulta a base de datos
     total_registros = resultado_total.rows;
     
+    const data_inv = require('./inventario');
+    //total_registros = (data_inv.datos).length;
+    
 
     // consulta de vista xxxxxx para traer ean y stock que corresponde a cada whitelabel de VTEX
     sql_total_eanes = `SELECT COUNT(DISTINCT CODIGOEAN) FROM FENIX_CENTRAL.INVENTARIO_CANALES WHERE ESTADO = 2`;
     resultado_total_eanes = await conexion.execute(sql_total_eanes, [], { autoCommit: false }); // Se ejecuta consulta a base de datos
     total_eanes = resultado_total_eanes.rows;
+    
+    //total_eanes = (data_inv.cantidad).length;
 
     conexion.release(); // Se libera la conexion a la base de datos
 
@@ -83,13 +88,13 @@ let model_inventario_config = async () => {
     if (data_validacion_sincronizacion_hoy.length == 0) {
         response.estatus = 'Sin Ejecutar'
         console.log(response.estatus);
-    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion > 150 && (response.total_registros - response.avance_total_registros) > 0) {
+    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion > 1 && (response.total_registros - response.avance_total_registros) > 0) {
         response.estatus = 'Error'
         console.log(response.estatus);
-    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion > 30 && (response.total_registros - response.avance_total_registros) == 0) {
+    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion > 1 && (response.total_registros - response.avance_total_registros) == 0) {
         response.estatus = 'Finalizado Exitoso'
         response.estatusDate = (new Date(localISOTime).toLocaleString('en-US',{timeZone: 'America/Lima' }));
-    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion < 150) {
+    } else if(data_validacion_sincronizacion_hoy.length > 0 && estado_sincronizacion < 1) {
         response.estatus = 'Procesando...'
         console.log(response.estatus);
     } else{

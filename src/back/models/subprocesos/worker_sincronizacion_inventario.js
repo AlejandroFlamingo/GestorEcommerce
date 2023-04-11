@@ -10,7 +10,7 @@ ejecutar = async () => {
     respuest = '';
     respuesta = '';
 
-    console.log('se ejecuto el subproceso ' + id_subproceso);
+    // console.log(data_inventario);
 
     for (let y = 0; y < data_inventario.length; y++) {
         if (data_inventario[y].store != undefined) {

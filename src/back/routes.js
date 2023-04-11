@@ -57,7 +57,7 @@ passport.use(new LocalStrategy(async function (username, password, done) {
         const respu = await ws_ldap.json();
         // Respuesra LDAP
         // console.log(respu);
-        console.log('hola mundo cruel');
+        
         if (respu.codigo === 200) {
             datauser = {
                 username: respuest.rows[0].username,

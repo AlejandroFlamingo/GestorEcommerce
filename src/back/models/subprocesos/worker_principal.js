@@ -6,19 +6,6 @@ const conn_fenixprd = require('../../../config/db/conn_oracle');
 const log_proceso = require(`../../../config/logs`);
 
 const codigo_proceso = workerData.codigo;
-console.log('***************************************');
-console.log('***************************************');
-console.log('***************************************');
-console.log('***************************************');
-console.log(codigo_proceso);
-console.log('***************************************');
-console.log('***************************************');
-console.log('***************************************');
-console.log('***************************************');
-
-// datos_logs = data_logs.data
-// console.log(datos_logs);
-// console.log(datos_logs.length);
 
 /**
  * 0 - Consulta de las credenciales para consumir servicios de vtex
@@ -33,7 +20,8 @@ const ejecutar = async () => {
     localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
 
     log_proceso.seguimiento_proceso(codigo_proceso, 'Se ejecuto el subproceso principal', 3);
-
+    /////////////////////////////////////////////////////////////////////////////////////////
+    const data_inv = require('../inventario');
     //*************** se consultan los keys de VTEX registrados en el gestor ****************
     const keysvtex = async () => {
         respuest = await pool.query(`
@@ -60,6 +48,7 @@ const ejecutar = async () => {
         return uniqueArr;
     }
     keys_unicos = removeDuplicateKeys(data_keys);
+    // keys_unicos = data_inv.keys;
     //************************************ Fin *********************************************
 
     //*************** Se consulta en FENIX la informacion del inventario ****************
@@ -73,7 +62,7 @@ const ejecutar = async () => {
         connection = await pool_connect.getConnection();
         const result = await connection.execute(sql, binds, options);
         skus = result.rows;
-        // console.log(skus);
+        console.log(skus);
         log_proceso.seguimiento_proceso(codigo_proceso, 'Finalizo la consulta a FENIX por el inventario (vista FENIX_CENTRAL.INVENTARIO_CANALES)', 3);
     } catch (err) {
         console.error(err);
@@ -87,15 +76,16 @@ const ejecutar = async () => {
         }
         await pool_connect.close();
     }
+    // skus = data_inv.datos;
     //************************************ Fin *********************************************
 
     //*************** se buscan eanes en la maestra de productos del gestor ****************
     const valores_ean = skus.map(item => item.CODIGOEAN);
     const unico_ean = [...new Set(valores_ean)];
+    //console.log(unico_ean);
     const slq_homologados = ` SELECT ean, sku_vtex FROM maestra_productos WHERE ean IN ( SELECT unnest($1::text[]) ) `;
     const result = await pool.query(slq_homologados, [unico_ean]);
     const lista_skus = result.rows;
-    // console.log(lista_skus);
     log_proceso.seguimiento_proceso(codigo_proceso, 'Finalizo la consulta de eanes en la maestra de productos del gestor', 3);
     //************************************ Fin *********************************************
 
@@ -109,7 +99,6 @@ const ejecutar = async () => {
     }
     let sin_sku = unico_ean.filter(codigo => !unico_ean_homologacion.includes(codigo));
     unico_ean_homologacion = sin_sku.map(item => { return { ean: `${item}`, sku_vtex: 0 } });
-    // console.log(unico_ean_homologacion);
     log_proceso.seguimiento_proceso(codigo_proceso, `Se identificaron ${unico_ean_homologacion.length} EANs que no estan registrados en la maestra`, 3);
     //************************************ Fin *********************************************
 
@@ -207,29 +196,50 @@ const ejecutar = async () => {
 
         return result;
     }
-
     sku_final = resultadoInventario(skus, datos_logs);
-
-    //console.log(sku_final);
-
     productos_con_sku = cruce_data_sku(lista_skus, sku_final, keys_unicos); // registros con sku, estan listos para divir y enviar a los subrocesos para rerpotar stock
     productos_sin_sku = cruce_data_sku(unico_ean_homologacion, sku_final, keys_unicos); // registros que se ejecutan en el subproceso de busqueda de sku
 
-    console.log(productos_con_sku.length);
-    console.log(productos_sin_sku.length);
-
+    function agruparPorEan(array) {
+        return array.reduce((result, obj) => {
+            const ean = obj.ean.toString(); // convertir el ean a string para usarlo como clave
+            const registro = {
+                ean: obj.ean,
+                sku_vtex: obj.sku_vtex || 0,
+                sucursal: obj.sucursal || 0,
+                stock: obj.stock || 0,
+                fecha_inventario: obj.fecha_inventario || '',
+                store: obj.store || '',
+                apikey: obj.apikey || '',
+                apitoken: obj.apitoken || '',
+                idvtex: obj.idvtex || '',
+                idsistemacomercial: obj.idsistemacomercial || ''
+            };
+            if (!result[ean]) {
+                result[ean] = { ean, registros: [] }; // si la clave no existe en el resultado, se crea
+            }
+            result[ean].registros.push(registro); // se agrega el objeto al array de registros correspondiente
+            return result;
+        }, {}); // el objeto vacío inicial es el valor inicial del acumulador
+    }
+    const resultados_sin_sku = Object.values(agruparPorEan(productos_sin_sku));
+    // console.log(resultados_sin_sku);
     log_proceso.seguimiento_proceso(codigo_proceso, `Finalizo el cruce de informacion entre "keyvtex" (gestor), "INVENTARIO_CANALES" (fenix), "maestra_productos" (gestor)`, 3);
     //************************************ Fin *********************************************
 
     //*************** SIN SKU se lanza sumproceso para hacer la busqueda del sku de los productos que no estan en la maestra del gestor ****************
-    let numeroDePartes_sin_sku = 20;
-    let longitudDeParte_sin_sku = Math.ceil(productos_sin_sku.length / numeroDePartes_sin_sku);
+    let numeroDePartes_sin_sku = 80;
+    let longitudDeParte_sin_sku = Math.ceil(productos_con_sku.length / numeroDePartes_sin_sku);
     let arrayDividido_sin_sku = [];
-    for (let i = 0; i < numeroDePartes_sin_sku; i++) {
-        let desordenado = productos_sin_sku.slice().sort(() => Math.random() - 0.5);
-        let nuevaParte = desordenado.slice(i * longitudDeParte_sin_sku, (i + 1) * longitudDeParte_sin_sku);
+
+    for (let i = 0; i < resultados_sin_sku.length; i += longitudDeParte_sin_sku) {
+        let nuevaParte = resultados_sin_sku.slice(i, i + longitudDeParte_sin_sku);
         arrayDividido_sin_sku.push(nuevaParte);
     }
+    // for (let g = 0; g < arrayDividido_sin_sku.length; g++) {
+    //     console.log(arrayDividido_sin_sku[g].length)
+    // }
+    console.log(resultados_sin_sku)
     log_proceso.seguimiento_proceso(codigo_proceso, `Se realizo la segmentacion de informacion que se ejecutara en cada subproceso`, 3);
     //************************************ Fin *********************************************
 
@@ -248,34 +258,33 @@ const ejecutar = async () => {
             }
         };
         workers_sin_sku[t] = new Worker(__dirname + '/worker_sku_vtex.js', { workerData: process_code_sin_sku });
-
     }
     //************************************ Fin *********************************************
 
     //*************** CON SKU se dividen los registros en partes (40 partes) ****************
-    let numeroDePartes = 60;
+    let numeroDePartes = 70;
     let longitudDeParte = Math.ceil(productos_con_sku.length / numeroDePartes);
     let arrayDividido = [];
-    for (let i = 0; i < numeroDePartes; i++) {
-        let desordenado = productos_con_sku.slice().sort(() => Math.random() - 0.5);
-        let nuevaParte = desordenado.slice(i * longitudDeParte, (i + 1) * longitudDeParte);
+
+    for (let i = 0; i < productos_con_sku.length; i += longitudDeParte) {
+        let nuevaParte = productos_con_sku.slice(i, i + longitudDeParte);
         arrayDividido.push(nuevaParte);
     }
+    //for (let r = 0; r < arrayDividido.length; r++) {
+    //    console.log(arrayDividido[r]);
+    //}
     log_proceso.seguimiento_proceso(codigo_proceso, `Se realizo la segmentacion de informacion que se ejecutara en cada subproceso`, 3);
     //************************************ Fin *********************************************
 
     //****************** CON SKU se dividen los registros en partes (40 partes) ********************
-    // Crear el subproceso y pasarle el codigo que identifica el proceso
+    //Crear el subproceso y pasarle el codigo que identifica el proceso
     const workers = [];
     for (let t = 0; t < arrayDividido.length; t++) {
         const process_code = { codigo: codigo_proceso, subproceso: t, datos_inventario: arrayDividido[t] };
         workers[t] = new Worker(__dirname + '/worker_sincronizacion_inventario.js', { workerData: process_code });
-
+    
     }
     //************************************ Fin *********************************************
-
-
-
 
 }
 

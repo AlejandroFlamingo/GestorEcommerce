@@ -40,7 +40,8 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h1 class="modal-title fs-5"
-                                                                id="ejecutar_sincronizacionLabel">Sincronizar de inventario
+                                                                id="ejecutar_sincronizacionLabel">Sincronizar de
+                                                                inventario
                                                             </h1>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
@@ -78,7 +79,8 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h1 class="modal-title fs-5"
-                                                                        id="ejecutar_sincronizacionLabel">Sincronizacion de inventario
+                                                                        id="ejecutar_sincronizacionLabel">Sincronizacion
+                                                                        de inventario
                                                                     </h1>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
@@ -118,130 +120,138 @@
                                                     <% } %>
 
 
-                                                    <% if(datos.estatus=='Finalizado Exitoso' ){ %>
-                                                        <!-- Button trigger modal -->
-                                                        <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                                            data-bs-target="#ejecutar_sincronizacion">Ejecutar</button>
-            
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="ejecutar_sincronizacion"
-                                                            data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                                            aria-labelledby="ejecutar_sincronizacionLabel" aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h1 class="modal-title fs-5"
-                                                                            id="ejecutar_sincronizacionLabel">Sincronizar de inventario
-                                                                        </h1>
-                                                                        <button type="button" class="btn-close"
-                                                                            data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        ¿Esta seguro que desea ejecutar la sincronizacion de
-                                                                        inventario para Ecommerce?
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Cancelar</button>
-                                                                        <form action="inventario" method="post">
-            
-                                                                            <button type="submitx"
-                                                                                class="btn btn-primary">Ejecutar</button>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-            
-                                                        <% } %>
+                                                        <% if(datos.estatus=='Finalizado Exitoso' ){ %>
+                                                            <!-- Button trigger modal -->
+                                                            <button class="btn btn-primary" type="button"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#ejecutar_sincronizacion">Ejecutar</button>
 
-                                                        <div class="row row-cols-3 text-center">
-                                                            <div class="col">
-
-                                                                <!-- Button trigger modal -->
-                                                                <button class="btn btn-primary" type="button"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#ver_historico"><i
-                                                                        class='fas fa-history'
-                                                                        style='font-size:24px'></i></button>
-
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="ver_historico"
-                                                                    data-bs-backdrop="static" data-bs-keyboard="false"
-                                                                    tabindex="-1"
-                                                                    aria-labelledby="ver_historicoLabel"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h1 class="modal-title fs-5"
-                                                                                    id="ver_historicoLabel">Historico
-                                                                                </h1>
-                                                                                <button type="button" class="btn-close"
-                                                                                    data-bs-dismiss="modal"
-                                                                                    aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                ...
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button"
-                                                                                    class="btn btn-secondary"
-                                                                                    data-bs-dismiss="modal">Close</button>
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary">Understood</button>
-                                                                            </div>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="ejecutar_sincronizacion"
+                                                                data-bs-backdrop="static" data-bs-keyboard="false"
+                                                                tabindex="-1"
+                                                                aria-labelledby="ejecutar_sincronizacionLabel"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5"
+                                                                                id="ejecutar_sincronizacionLabel">
+                                                                                Sincronizar de inventario
+                                                                            </h1>
+                                                                            <button type="button" class="btn-close"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close"></button>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
+                                                                        <div class="modal-body">
+                                                                            ¿Esta seguro que desea ejecutar la
+                                                                            sincronizacion de
+                                                                            inventario para Ecommerce?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Cancelar</button>
+                                                                            <form action="inventario" method="post">
 
-                                                            </div>
-                                                            <div class="col">
-                                                                <!-- Button trigger modal -->
-                                                                <button class="btn btn-primary" type="button"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#programar_ejecucion"><i
-                                                                        class='fas fa-calendar-check'
-                                                                        style='font-size:24px'></i></button>
-
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="programar_ejecucion"
-                                                                    data-bs-backdrop="static" data-bs-keyboard="false"
-                                                                    tabindex="-1"
-                                                                    aria-labelledby="programar_ejecucionLabel"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h1 class="modal-title fs-5"
-                                                                                    id="programar_ejecucionLabel">Modal
-                                                                                    title
-                                                                                </h1>
-                                                                                <button type="button" class="btn-close"
-                                                                                    data-bs-dismiss="modal"
-                                                                                    aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                ...
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button"
-                                                                                    class="btn btn-secondary"
-                                                                                    data-bs-dismiss="modal">Close</button>
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary">Understood</button>
-                                                                            </div>
+                                                                                <button type="submitx"
+                                                                                    class="btn btn-primary">Ejecutar</button>
+                                                                            </form>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col">
-                                                                <a class="btn btn-primary btn-sm" href="inventario"
-                                                                    role="button">
-                                                                    <i class='fas fa-sync' style='font-size:24px'></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
+
+                                                            <% } %>
+
+                                                                <div class="row text-center">
+
+                                                                    <div class="btn-group" role="group"
+                                                                        aria-label="Basic example">
+                                                                        <button type="button" class="btn btn-primary"
+                                                                            data-bs-toggle="modal"
+                                                                            title="Tooltip on bottom"
+                                                                            data-bs-target="#ver_historico"><i
+                                                                                class='fas fa-history'
+                                                                                style='font-size:24px'></i></button>
+                                                                        <button type="button" class="btn btn-primary"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#programar_ejecucion"><i
+                                                                                class='fas fa-calendar-check'
+                                                                                style='font-size:24px'></i></button>
+                                                                        <a href="inventario" class="btn btn-primary"><i
+                                                                                class='fas fa-sync'
+                                                                                style='font-size:24px'></i></a>
+                                                                    </div>
+
+
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="ver_historico"
+                                                                        data-bs-backdrop="static"
+                                                                        data-bs-keyboard="false" tabindex="-1"
+                                                                        aria-labelledby="ver_historicoLabel"
+                                                                        aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h1 class="modal-title fs-5"
+                                                                                        id="ver_historicoLabel">
+                                                                                        Historico
+                                                                                    </h1>
+                                                                                    <button type="button"
+                                                                                        class="btn-close"
+                                                                                        data-bs-dismiss="modal"
+                                                                                        aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    ...
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-bs-dismiss="modal">Close</button>
+                                                                                    <button type="button"
+                                                                                        class="btn btn-primary">Understood</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="programar_ejecucion"
+                                                                        data-bs-backdrop="static"
+                                                                        data-bs-keyboard="false" tabindex="-1"
+                                                                        aria-labelledby="programar_ejecucionLabel"
+                                                                        aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h1 class="modal-title fs-5"
+                                                                                        id="programar_ejecucionLabel">
+                                                                                        Modal
+                                                                                        title
+                                                                                    </h1>
+                                                                                    <button type="button"
+                                                                                        class="btn-close"
+                                                                                        data-bs-dismiss="modal"
+                                                                                        aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    ...
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-bs-dismiss="modal">Close</button>
+                                                                                    <button type="button"
+                                                                                        class="btn btn-primary">Understood</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -303,9 +313,9 @@
                                         <td>
                                             <% if(datos.estatus=='Finalizado Exitoso' ){ %>
                                                 <%= datos.estatusDate %>
-                                            <% }else{ %>
-                                                <%= datos.estatus %>
-                                            <% } %>
+                                                    <% }else{ %>
+                                                        <%= datos.estatus %>
+                                                            <% } %>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -335,15 +345,16 @@
                                 <% for(let i=0; i < (datos.log_seguimiento).length; i++){ %>
                                     <tr>
                                         <td>
-                                            <%= (new
-                                                Date((datos.log_seguimiento)[i].fecha_registro).toLocaleString('en-US',
-                                                {timeZone: 'America/Lima' })) %>
+                                            <%=
+                                                (new Date((datos.log_seguimiento)[i].fecha_registro).toLocaleString('en-US',
+                                                {timeZone: 'America/Lima' })) 
+                                            %>
                                         </td>
                                         <td>
                                             <%= (datos.log_seguimiento)[i].response %>
                                         </td>
                                     </tr>
-                                    <% } %>
+                                <% } %>
                             </tbody>
                         </table>
                     </div>
